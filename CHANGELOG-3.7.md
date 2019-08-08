@@ -61,6 +61,12 @@ These are the changes since Ice 3.7.2.
 - Added `ice_isFixed` proxy method to test whether a proxy is a fixed proxy
   or not.
 
+- Add property `IceSSL.ServerNameIndication` to send the SNI extension in TLS
+  connections (currently only in OpenSSL/SecureTransport backends, defaults
+  to 0). This is helpful, for example, if a web server in front of Ice
+  secure WebSocket (WSS) endpoints needs to decide the certificate and backend
+  based on requested hostname.
+
 ## C++ Changes
 
 - Fixed IceGrid issue where gracefully interrupted IceGrid node wouldn't notify
