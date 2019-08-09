@@ -190,7 +190,7 @@ FreezeScript::parseSlice(const string& n, const Slice::UnitPtr& u, const vector<
 
         if(!icecpp->close())
         {
-            return false;            
+            return false;
         }
 
         if(status != EXIT_SUCCESS)
@@ -209,7 +209,7 @@ FreezeScript::readCatalog(const Ice::CommunicatorPtr& communicator, const string
 {
     CatalogDataMap result;
 
-    DbEnv dbEnv(0);
+    DbEnv dbEnv(nullptr);
     try
     {
 #ifdef _WIN32

@@ -23,6 +23,15 @@
 
 #ifdef ICE_USE_OPENSSL
 
+bool
+isIpAddress(const std::string& name)
+{
+    in_addr addr;
+    in6_addr addr6;
+
+    return inet_pton(AF_INET, name.c_str(), &addr) > 0 || inet_pton(AF_INET6, name.c_str(), &addr6) > 0;
+}
+
 #include <openssl/err.h>
 #include <openssl/bio.h>
 
@@ -141,6 +150,17 @@ IceSSL::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::B
                 }
             }
             SSL_set_verify(_ssl, sslVerifyMode, IceSSL_opensslVerifyCallback);
+        }
+
+        // Server name indication
+        if (!_incoming && _engine->getServerNameIndication() && !_host.empty() && !isIpAddress(_host))
+        {
+            if (!SSL_set_tlsext_host_name(_ssl, _host.c_str()))
+            {
+                ostringstream ostr;
+                ostr << "IceSSL: failed to set SNI host " << _host << " with SSL_set_tlsext_host_name";
+                throw SecurityException(__FILE__, __LINE__, ostr.str());
+            }
         }
     }
 

@@ -481,7 +481,7 @@ run(const Ice::StringSeq& originalArgs, const Ice::CommunicatorPtr& communicator
     FreezeScript::ObjectFactoryPtr objectFactory = new FreezeScript::ObjectFactory;
     communicator->addObjectFactory(objectFactory, "");
 
-    DbEnv dbEnv(0);
+    DbEnv dbEnv(nullptr);
     DbTxn* txn = 0;
     Freeze::ConnectionPtr connection;
     int status = EXIT_SUCCESS;

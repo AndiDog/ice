@@ -23,6 +23,13 @@ using namespace IceSSL;
 namespace
 {
 
+// Hack from SNI backport, don't use for full functionality
+bool
+isIpAddress(const std::string& name)
+{
+    return !name.empty() && name.find_first_of(".:") != std::string::npos && name.find_first_not_of(".:0123456789") == std::string::npos;
+}
+
 string
 trustResultDescription(SecTrustResultType result)
 {
@@ -200,6 +207,16 @@ IceSSL::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::B
         {
             throw SecurityException(__FILE__, __LINE__, "IceSSL: setting SSL connection failed\n" +
                                     errorToString(err));
+        }
+
+        if (!_incoming && _engine->getServerNameIndication() && !_host.empty() && !isIpAddress(_host))
+        {
+            if ((err = SSLSetPeerDomainName(_ssl, _host.data(), _host.length())))
+            {
+                ostringstream ostr;
+                ostr << "IceSSL: failed to set SNI host " << _host << " with SSLSetPeerDomainName (" << err << ")";
+                throw SecurityException(__FILE__, __LINE__, ostr.str());
+            }
         }
     }
 

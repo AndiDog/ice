@@ -766,8 +766,8 @@ run(const Ice::StringSeq& originalArgs, const Ice::CommunicatorPtr& communicator
     //
     // Transform the database.
     //
-    DbEnv dbEnv(0);
-    DbEnv dbEnvNew(0);
+    DbEnv dbEnv(nullptr);
+    DbEnv dbEnvNew(nullptr);
     Freeze::TransactionPtr txNew;
     Freeze::ConnectionPtr connection;
     Freeze::ConnectionPtr connectionNew;
@@ -1019,4 +1019,3 @@ main(int argc, char* argv[])
 
     return status;
 }
-

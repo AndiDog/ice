@@ -1004,6 +1004,7 @@ namespace IceInternal
              new Property(@"^IceSSL\.ProtocolVersionMax$", false, null),
              new Property(@"^IceSSL\.ProtocolVersionMin$", false, null),
              new Property(@"^IceSSL\.Random$", false, null),
+             new Property(@"^IceSSL\.ServerNameIndication$", false, null),
              new Property(@"^IceSSL\.Trace\.Security$", false, null),
              new Property(@"^IceSSL\.TrustOnly$", false, null),
              new Property(@"^IceSSL\.TrustOnly\.Client$", false, null),

@@ -78,6 +78,13 @@ These are the changes since Ice 3.6.2.
 
 - General clean up in slice2html, including a fix for broken link paths.
 
+- Add property `IceSSL.ServerNameIndication` to send the SNI extension in TLS
+  connections (currently only in OpenSSL/SecureTransport backends, defaults
+  to 0). This is helpful, for example, if a web server in front of Ice
+  secure WebSocket (WSS) endpoints needs to decide the certificate and backend
+  based on requested hostname.
+  (THIS IS A BACKPORT FROM 3.7 BRANCH, NOT OFFICIALLY MERGED/RELEASED BY ZEROC)
+
 ## C++ Changes
 
 - Added support for archiving log files. The property Ice.LogFile.SizeMax

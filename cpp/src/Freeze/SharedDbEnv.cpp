@@ -275,7 +275,7 @@ Freeze::SharedDbEnv::removeSharedMapDb(const string& dbName)
 }
 
 
-void 
+void
 Freeze::SharedDbEnv::__incRef()
 {
     IceUtilInternal::MutexPtrLock<IceUtil::Mutex> lock(refCountMutex);
@@ -530,7 +530,7 @@ Freeze::SharedDbEnv::SharedDbEnv(const std::string& envName,
     {
         if(_env == 0)
         {
-            _envHolder.reset(new DbEnv(0));
+            _envHolder.reset(new DbEnv(nullptr));
             _env = _envHolder.get();
 
             if(_trace >= 1)
