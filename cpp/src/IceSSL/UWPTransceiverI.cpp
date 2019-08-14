@@ -158,7 +158,7 @@ UWP::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::Buff
                 ChainValidationResult result = _chain->Validate();
                 if(result != ChainValidationResult::Success)
                 {
-                    if(_engine->getVerifyPeer() == 0)
+                    if(_engine->getVerifyPeer(_incoming) == 0)
                     {
                         if(_instance->traceLevel() >= 1)
                         {
@@ -178,7 +178,7 @@ UWP::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::Buff
                     _verified = true;
                 }
             }
-            else if((!_incoming && _engine->getVerifyPeer() > 0) || (_incoming && _engine->getVerifyPeer() == 2))
+            else if((!_incoming && _engine->getVerifyPeer(_incoming) > 0) || (_incoming && _engine->getVerifyPeer(_incoming) == 2))
             {
                 //
                 // Clients require server certificate if VerifyPeer > 0 and servers require client
@@ -250,7 +250,7 @@ UWP::TransceiverI::startWrite(IceInternal::Buffer& buf)
         //
         // Check if we need to enable host name verification
         //
-        if(!_engine->getCheckCertName() || _host.empty() || _engine->getVerifyPeer() == 0)
+        if(!_engine->getCheckCertName() || _host.empty() || _engine->getVerifyPeer(_incoming) == 0)
         {
             stream->Control->IgnorableServerCertificateErrors->Append(ChainValidationResult::InvalidName);
         }

@@ -67,6 +67,10 @@ These are the changes since Ice 3.7.2.
   secure WebSocket (WSS) endpoints needs to decide the certificate and backend
   based on requested hostname.
 
+- Separate `IceSSL.VerifyPeer.Client` and `IceSSL.VerifyPeer.Server}`
+  properties because each service can also be a client (with differing
+  verification semantics; falls back to `IceSSL.VerifyPeer`)
+
 ## C++ Changes
 
 - Fixed IceGrid issue where gracefully interrupted IceGrid node wouldn't notify

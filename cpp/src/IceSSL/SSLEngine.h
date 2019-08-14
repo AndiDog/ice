@@ -64,7 +64,7 @@ public:
 
     bool getCheckCertName() const;
     bool getServerNameIndication() const;
-    int getVerifyPeer() const;
+    int getVerifyPeer(bool incoming) const;
     int securityTraceLevel() const;
     std::string securityTraceCategory() const;
 
@@ -86,7 +86,8 @@ private:
     bool _checkCertName;
     bool _serverNameIndication;
     int _verifyDepthMax;
-    int _verifyPeer;
+    int _verifyPeerClient; // outgoing
+    int _verifyPeerServer; // incoming
     int _securityTraceLevel;
     std::string _securityTraceCategory;
 };

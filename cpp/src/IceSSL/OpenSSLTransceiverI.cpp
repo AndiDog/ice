@@ -150,7 +150,7 @@ OpenSSL::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::
         //
         {
             int sslVerifyMode = SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT;
-            switch(_engine->getVerifyPeer())
+            switch(_engine->getVerifyPeer(_incoming))
             {
                 case 0:
                     sslVerifyMode = SSL_VERIFY_NONE;
@@ -304,7 +304,7 @@ OpenSSL::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::
     long result = SSL_get_verify_result(_ssl);
     if(result != X509_V_OK)
     {
-        if(_engine->getVerifyPeer() == 0)
+        if(_engine->getVerifyPeer(_incoming) == 0)
         {
             if(_engine->securityTraceLevel() >= 1)
             {

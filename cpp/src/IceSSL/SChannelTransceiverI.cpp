@@ -218,7 +218,7 @@ SChannel::TransceiverI::sslHandshake()
     if(_incoming)
     {
         flags |= ASC_REQ_EXTENDED_ERROR;
-        if(_engine->getVerifyPeer() > 0)
+        if(_engine->getVerifyPeer(_incoming) > 0)
         {
             flags |= ASC_REQ_MUTUAL_AUTH;
         }
@@ -658,7 +658,7 @@ SChannel::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal:
                                 secStatusToString(err));
     }
 
-    if(!cert && ((!_incoming && _engine->getVerifyPeer() > 0) || (_incoming && _engine->getVerifyPeer() == 2)))
+    if(!cert && ((!_incoming && _engine->getVerifyPeer(_incoming) > 0) || (_incoming && _engine->getVerifyPeer(_incoming) == 2)))
     {
         //
         // Clients require server certificate if VerifyPeer > 0 and servers require client
@@ -715,7 +715,7 @@ SChannel::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal:
 
         if(!trustError.empty())
         {
-            if(_engine->getVerifyPeer() == 0)
+            if(_engine->getVerifyPeer(_incoming) == 0)
             {
                 if(_instance->traceLevel() >= 1)
                 {

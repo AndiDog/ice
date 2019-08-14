@@ -125,12 +125,14 @@ IceSSL::SSLEngine::initialize()
     //
     // VerifyPeer determines whether certificate validation failures abort a connection.
     //
-    _verifyPeer = properties->getPropertyAsIntWithDefault(propPrefix + "VerifyPeer", 2);
+    const int verifyPeerFallback = properties->getPropertyAsIntWithDefault(propPrefix + "VerifyPeer", 2);
+    _verifyPeerClient = properties->getPropertyAsIntWithDefault(propPrefix + "VerifyPeer.Client", verifyPeerFallback);
+    _verifyPeerServer = properties->getPropertyAsIntWithDefault(propPrefix + "VerifyPeer.Server", verifyPeerFallback);
 
-    if(_verifyPeer < 0 || _verifyPeer > 2)
+    if(_verifyPeerClient < 0 || _verifyPeerClient > 2 || _verifyPeerServer < 0 || _verifyPeerServer > 2)
     {
         throw PluginInitializationException(__FILE__, __LINE__, "IceSSL: invalid value for " + propPrefix +
-                                            "VerifyPeer");
+                                            "VerifyPeer/VerifyPeer.Client/VerifyPeer.Server");
     }
 
     _securityTraceLevel = properties->getPropertyAsInt("IceSSL.Trace.Security");
@@ -216,7 +218,7 @@ IceSSL::SSLEngine::verifyPeerCertName(const string& address, const ConnectionInf
                 out << msg;
             }
 
-            if(_verifyPeer > 0)
+            if(getVerifyPeer(info->incoming) > 0)
             {
                 throw SecurityException(__FILE__, __LINE__, msg);
             }
@@ -276,9 +278,9 @@ IceSSL::SSLEngine::getServerNameIndication() const
 }
 
 int
-IceSSL::SSLEngine::getVerifyPeer() const
+IceSSL::SSLEngine::getVerifyPeer(bool incoming) const
 {
-    return _verifyPeer;
+    return incoming ? _verifyPeerServer : _verifyPeerClient;
 }
 
 int
