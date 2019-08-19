@@ -1062,7 +1062,7 @@ IceSSL::SecureTransportEngine::newContext(bool incoming)
     OSStatus err = noErr;
     if(incoming)
     {
-        switch(getVerifyPeer())
+        switch(getVerifyPeer(incoming))
         {
             case 0:
             {

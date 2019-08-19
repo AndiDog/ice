@@ -1016,6 +1016,8 @@ public final class PropertyNames
         new Property("IceSSL\\.UsePlatformCAs", false, null),
         new Property("IceSSL\\.VerifyDepthMax", false, null),
         new Property("IceSSL\\.VerifyPeer", false, null),
+        new Property("IceSSL\\.VerifyPeer\\.Client", false, null),
+        new Property("IceSSL\\.VerifyPeer\\.Server", false, null),
         null
     };
 

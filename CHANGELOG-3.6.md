@@ -85,6 +85,11 @@ These are the changes since Ice 3.6.2.
   based on requested hostname.
   (THIS IS A BACKPORT FROM 3.7 BRANCH, NOT OFFICIALLY MERGED/RELEASED BY ZEROC)
 
+- Separate `IceSSL.VerifyPeer.Client` and `IceSSL.VerifyPeer.Server}`
+  properties because each service can also be a client (with differing
+  verification semantics; falls back to `IceSSL.VerifyPeer`)
+  (THIS IS A BACKPORT FROM 3.7 BRANCH, NOT OFFICIALLY MERGED/RELEASED BY ZEROC)
+
 ## C++ Changes
 
 - Added support for archiving log files. The property Ice.LogFile.SizeMax

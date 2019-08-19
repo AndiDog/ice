@@ -1044,6 +1044,8 @@ const IceInternal::Property IceSSLPropsData[] =
     IceInternal::Property("IceSSL.UsePlatformCAs", false, 0),
     IceInternal::Property("IceSSL.VerifyDepthMax", false, 0),
     IceInternal::Property("IceSSL.VerifyPeer", false, 0),
+    IceInternal::Property("IceSSL.VerifyPeer.Client", false, 0),
+    IceInternal::Property("IceSSL.VerifyPeer.Server", false, 0),
 };
 
 const IceInternal::PropertyArray

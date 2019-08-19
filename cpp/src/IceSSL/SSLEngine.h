@@ -80,7 +80,7 @@ public:
     std::string getPassword() const;
     void setPassword(const std::string& password);
 
-    int getVerifyPeer() const { return _verifyPeer; }
+    int getVerifyPeer(bool incoming) const { return incoming ? _verifyPeerServer : _verifyPeerClient; }
     bool getServerNameIndication() const { return _serverNameIndication; }
     int securityTraceLevel() const { return _securityTraceLevel; }
     std::string securityTraceCategory() const { return _securityTraceCategory; }
@@ -98,7 +98,8 @@ private:
     bool _checkCertName;
     bool _serverNameIndication;
     int _verifyDepthMax;
-    int _verifyPeer;
+    int _verifyPeerClient; // outgoing
+    int _verifyPeerServer; // incoming
     int _securityTraceLevel;
     std::string _securityTraceCategory;
 };

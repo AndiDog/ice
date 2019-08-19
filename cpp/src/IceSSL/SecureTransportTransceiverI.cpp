@@ -103,7 +103,7 @@ socketRead(SSLConnectionRef connection, void* data, size_t* length)
 }
 
 bool
-checkTrustResult(SecTrustRef trust, const SecureTransportEnginePtr& engine, const InstancePtr& instance)
+checkTrustResult(SecTrustRef trust, const SecureTransportEnginePtr& engine, const InstancePtr& instance, bool incoming)
 {
     OSStatus err = noErr;
     SecTrustResultType trustResult = kSecTrustResultOtherError;
@@ -149,7 +149,7 @@ checkTrustResult(SecTrustRef trust, const SecureTransportEnginePtr& engine, cons
     // case kSecTrustResultFatalTrustFailure:
     // case kSecTrustResultOtherError:
     {
-        if(engine->getVerifyPeer() == 0)
+        if(engine->getVerifyPeer(incoming) == 0)
         {
             if(instance->traceLevel() >= 1)
             {
@@ -242,7 +242,7 @@ IceSSL::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::B
         {
             assert(!_trust);
             err = SSLCopyPeerTrust(_ssl, &_trust);
-            if(_incoming && _engine->getVerifyPeer() == 1 && (err == errSSLBadCert || _trust == 0))
+            if(_incoming && _engine->getVerifyPeer(_incoming) == 1 && (err == errSSLBadCert || _trust == 0))
             {
                 // This is expected if the client doesn't provide a certificate. With 10.10 and 10.11 errSSLBadCert
                 // is expected, the server is configured to verify but not require the client
@@ -251,7 +251,7 @@ IceSSL::TransceiverI::initialize(IceInternal::Buffer& readBuffer, IceInternal::B
             }
             if(err == noErr)
             {
-                _verified = checkTrustResult(_trust, _engine, _instance);
+                _verified = checkTrustResult(_trust, _engine, _instance, _incoming);
                 continue; // Call SSLHandshake to resume the handsake.
             }
             // Let it fall through, this will raise a SecurityException with the SSLCopyPeerTrust error.

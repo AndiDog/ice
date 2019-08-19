@@ -606,6 +606,8 @@ generated from the section label.
         <property name="UsePlatformCAs" />
         <property name="VerifyDepthMax" />
         <property name="VerifyPeer" />
+        <property name="VerifyPeer.Client" />
+        <property name="VerifyPeer.Server" />
     </section>
 
     <section name="IceStormAdmin">
